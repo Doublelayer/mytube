@@ -1,12 +1,13 @@
 import React from 'react';
-import { HeaderNav } from '../../utils/ComponentExporter';
+import { HeaderNav, SideBar } from '../../utils/ComponentExporter';
 import './App.sass';
 
 function App() {
   return (
-    <div className="App">
+    <React.Fragment>
       <HeaderNav />
-    </div>
+      <SideBar />
+    </React.Fragment>
   );
 }
 
