@@ -11,3 +11,4 @@ export { SideBarFooter } from '../containers/SideBar/SideBarFooter/SideBarFooter
 export { Home } from '../containers/Home/Home';
 export { VideoGrid } from '../components/VideoGrid/VideoGrid';
 export { VideoGridHeader } from '../components/VideoGrid/VideoGridHeader/VideoGridHeader';
+export { AppLayout } from '../components/AppLayout/AppLayout';

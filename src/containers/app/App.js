@@ -1,13 +1,12 @@
 import React from 'react';
-import { HeaderNav, Home } from '../../utils/ComponentExporter';
+import { AppLayout, Home } from '../../utils/ComponentExporter';
 import './App.sass';
 
 function App() {
   return (
-    <React.Fragment>
-      <HeaderNav />
+    <AppLayout>
       <Home />
-    </React.Fragment>
+    </AppLayout>
   );
 }
 
