@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeaderNav, SideBar } from '../../utils/ComponentExporter';
+import { HeaderNav, SideBar, Home } from '../../utils/ComponentExporter';
 import './App.sass';
 
 function App() {
@@ -7,6 +7,7 @@ function App() {
     <React.Fragment>
       <HeaderNav />
       <SideBar />
+      <Home />
     </React.Fragment>
   );
 }

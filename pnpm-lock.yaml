@@ -8,6 +8,7 @@ dependencies:
   react-router-dom: 5.1.2_react@16.12.0
   react-scripts: 3.1.1
   react-test-renderer: 16.12.0_react@16.12.0
+  react-video-thumbnail: 0.1.3
   react-waypoint: 9.0.2_react@16.12.0
   redux: 4.0.4
   redux-saga: 1.1.3
@@ -6696,6 +6697,9 @@ packages:
       node: '>=6'
     peerDependencies:
       jest-resolve: '*'
+    peerDependenciesMeta:
+      jest-resolve:
+        optional: true
     resolution:
       integrity: sha512-pgFw2tm54fzgYvc/OHrnysABEObZCUNFnhjoRjaVOCN8NYc032/gVjPaHD4Aq6ApkSieWtfKAFQtmDKAmhupnQ==
   /jest-pnp-resolver/1.2.1_jest-resolve@24.9.0:
@@ -9728,6 +9732,10 @@ packages:
       react: ^16.0.0
     resolution:
       integrity: sha512-Vj/teSqt2oayaWxkbhQ6gKis+t5JrknXfPVo+aIJ8QwYAqMPH77uptOdrlphyxl8eQI/rtkOYg86i/UWkpFu0w==
+  /react-video-thumbnail/0.1.3:
+    dev: false
+    resolution:
+      integrity: sha512-ZakEVv9RNFcziAnHHtwod5tf0yMVv4aLZ8/QsCxt1HTnKRHrlylvolPKv1hr63GCwnPu6tgPjUTDKRqfl30lOQ==
   /react-waypoint/9.0.2_react@16.12.0:
     dependencies:
       consolidated-events: 2.0.2
@@ -12143,6 +12151,7 @@ specifiers:
   react-router-dom: ^5.0.1
   react-scripts: 3.1.1
   react-test-renderer: ^16.8.6
+  react-video-thumbnail: ^0.1.3
   react-waypoint: ^9.0.2
   redux: ^4.0.1
   redux-saga: ^1.0.2
