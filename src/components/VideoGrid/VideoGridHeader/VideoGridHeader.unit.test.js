@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { VideoGridHeader } from '../../../utils/ComponentExporter';
+import { VideoGridHeader } from './VideoGridHeader';
 
 describe('VideoGridHeader', () => {
   test('renders without props', () => {
