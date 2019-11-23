@@ -4,6 +4,7 @@ export { default as SideBar } from '../containers/SideBar/SideBar';
 export { default as SideBarItem } from '../containers/SideBar/SideBarItem/SideBarItem';
 export { default as Favorites } from '../containers/SideBar/Favorites/Favorites';
 export { default as VideoPreview } from '../components/VideoPreview/VideoPreview';
+export { default as Video } from '../components/Video/Video';
 
 export { Watch } from '../containers/Watch/Watch';
 export { SideBarHeader } from '../containers/SideBar/SideBarHeader/SideBarHeader';

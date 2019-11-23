@@ -1,10 +1,10 @@
 import React from 'react';
-import App from './App';
 import { shallow } from 'enzyme';
+import { VideoPreview } from '../VideoPreview';
 
-describe('App', () => {
+describe('VideoPreview', () => {
   test('renders', () => {
-    const wrapper = shallow(<App />);
+    const wrapper = shallow(<VideoPreview />);
     expect(wrapper).toMatchSnapshot();
   });
 });
