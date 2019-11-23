@@ -6,6 +6,12 @@ export { default as Favorites } from '../containers/SideBar/Favorites/Favorites'
 export { default as VideoPreview } from '../components/VideoPreview/VideoPreview';
 export { default as Video } from '../components/Video/Video';
 
+export { Comment } from '../containers/Comments/Comment/Comment';
+export { AddComment } from '../containers/Comments/AddComment/AddComment';
+export { Comments } from '../containers/Comments/Comments';
+export { CommentsHeader } from '../containers/Comments/CommentsHeader/CommentsHeader';
+export { VideoInfoBox } from '../components/VideoInfoBox/VideoInfoBox';
+export { VideoMetadata } from '../components/VideoMetadata/VideoMetadata';
 export { NextUpVideo } from '../components/RelatedVideos/NextUpVideo/NextUpVideo';
 export { RelatedVideos } from '../components/RelatedVideos/RelatedVideos';
 export { Watch } from '../containers/Watch/Watch';

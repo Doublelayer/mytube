@@ -11,18 +11,48 @@ exports[`VideoGrid renders with title prop 1`] = `
     <div
       className="video-grid"
     >
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
     </div>
   </div>
   <Divider />
@@ -38,18 +68,48 @@ exports[`VideoGrid renders without divider 1`] = `
     <div
       className="video-grid"
     >
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
     </div>
   </div>
 </Fragment>
@@ -64,18 +124,48 @@ exports[`VideoGrid renders without props 1`] = `
     <div
       className="video-grid"
     >
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
-      <VideoPreview />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
+      <VideoPreview
+        expanded={true}
+      />
     </div>
   </div>
   <Divider />

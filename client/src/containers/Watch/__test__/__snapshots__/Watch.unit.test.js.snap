@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Watch renders 1`] = `
+<div
+  className="watch-grid"
+>
+  <Video
+    class="video"
+    controls={true}
+    playing={true}
+    url="http://localhost:5000/stream/1"
+  />
+  <VideoMetadata />
+  <VideoInfoBox />
+  <Comments />
+  <RelatedVideos
+    className="relatedVideos"
+  />
+</div>
+`;
