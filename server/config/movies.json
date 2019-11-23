@@ -4,89 +4,73 @@
             "id": 0,
             "type": "file",
             "extname": ".mp4",
-            "parent": "Putensen",
-            "name": "01_April_16_Teil_1",
-            "path": "X:\\Bilder\\Sandra\\Putensen\\01_April_16_Teil_1.mp4"
+            "parent": "01_Videos",
+            "name": "1",
+            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\1.mp4"
         },
         {
             "id": 1,
             "type": "file",
             "extname": ".mp4",
-            "parent": "Putensen",
-            "name": "01_April_16_Teil_2",
-            "path": "X:\\Bilder\\Sandra\\Putensen\\01_April_16_Teil_2.mp4"
+            "parent": "01_Videos",
+            "name": "2",
+            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\2.mp4"
         },
         {
             "id": 2,
             "type": "file",
             "extname": ".mp4",
-            "parent": "Putensen",
-            "name": "01_April_16_Teil_3",
-            "path": "X:\\Bilder\\Sandra\\Putensen\\01_April_16_Teil_3.mp4"
+            "parent": "01_Videos",
+            "name": "3",
+            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\3.mp4"
         },
         {
             "id": 3,
             "type": "file",
             "extname": ".mp4",
-            "parent": "Putensen",
-            "name": "11_März_16_Teil_1",
-            "path": "X:\\Bilder\\Sandra\\Putensen\\11_März_16_Teil_1.mp4"
+            "parent": "01_Videos",
+            "name": "4",
+            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\4.mp4"
         },
         {
             "id": 4,
             "type": "file",
             "extname": ".mp4",
-            "parent": "Putensen",
-            "name": "11_März_16_Teil_2",
-            "path": "X:\\Bilder\\Sandra\\Putensen\\11_März_16_Teil_2.mp4"
+            "parent": "01_Videos",
+            "name": "5",
+            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\5.mp4"
         },
         {
             "id": 5,
             "type": "file",
             "extname": ".mp4",
-            "parent": "Putensen",
-            "name": "11_März_16_Teil_3",
-            "path": "X:\\Bilder\\Sandra\\Putensen\\11_März_16_Teil_3.mp4"
+            "parent": "01_Videos",
+            "name": "wordpress",
+            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\wordpress.mp4"
         },
         {
             "id": 6,
             "type": "file",
             "extname": ".mp4",
-            "parent": "Putensen",
-            "name": "11_März_16_Teil_4",
-            "path": "X:\\Bilder\\Sandra\\Putensen\\11_März_16_Teil_4.mp4"
+            "parent": "02_Videos",
+            "name": "6",
+            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\02_Videos\\6.mp4"
         },
         {
             "id": 7,
             "type": "file",
             "extname": ".mp4",
-            "parent": "2017-04-08 Geburtstag Florin",
-            "name": "2017-04-08 Geburtstag Florin (1)",
-            "path": "X:\\Bilder\\2017-04-08 Geburtstag Florin\\2017-04-08 Geburtstag Florin (1).mp4"
+            "parent": "02_Videos",
+            "name": "7",
+            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\02_Videos\\7.mp4"
         },
         {
             "id": 8,
             "type": "file",
             "extname": ".mp4",
-            "parent": "2017-04-08 Geburtstag Florin",
-            "name": "2017-04-08 Geburtstag Florin (2)",
-            "path": "X:\\Bilder\\2017-04-08 Geburtstag Florin\\2017-04-08 Geburtstag Florin (2).mp4"
-        },
-        {
-            "id": 9,
-            "type": "file",
-            "extname": ".mp4",
-            "parent": "2017-04-08 Geburtstag Florin",
-            "name": "2017-04-08 Geburtstag Florin (3)",
-            "path": "X:\\Bilder\\2017-04-08 Geburtstag Florin\\2017-04-08 Geburtstag Florin (3).mp4"
-        },
-        {
-            "id": 10,
-            "type": "file",
-            "extname": ".mp4",
-            "parent": "2017-04-08 Geburtstag Florin",
-            "name": "2017-04-08 Geburtstag Florin (4)",
-            "path": "X:\\Bilder\\2017-04-08 Geburtstag Florin\\2017-04-08 Geburtstag Florin (4).mp4"
+            "parent": "03_Videos",
+            "name": "8",
+            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\02_Videos\\03_Videos\\8.mp4"
         }
     ]
 }

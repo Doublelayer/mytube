@@ -22,7 +22,7 @@ app.get('/generate', (req, res) => {
   //   if (process.env.NODE_ENV !== 'dev') return res.status(405).json('Dev mode only');
 
   generateMovieMetaData();
-  res.json('Generating metadata. Please wait...');
+  res.status(200).send('Generating metadata. Please wait...');
 });
 
 app.get('/stream/:id', function(req, res) {
@@ -67,7 +67,7 @@ app.get('/stream/:id', function(req, res) {
 });
 
 const generateMovieMetaData = function() {
-  const basepath = 'X:\\Bilder'; // this will be prepended to the paths found in the structure
+  const basepath = 'C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos'; // this will be prepended to the paths found in the structure
 
   var settings = {
     type: 'files',

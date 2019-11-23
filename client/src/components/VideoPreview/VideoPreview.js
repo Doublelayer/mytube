@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import { Image } from 'semantic-ui-react';
+import { Video } from '../../utils/ComponentExporter';
+
 import './VideoPreview.scss';
 
 class VideoPreview extends Component {
   render() {
+    const horizontal = this.props.horizontal ? 'horizontal' : null;
+    const expanded = this.props.expanded ? 'expanded' : null;
+
     return (
-      <div className="video-preview">
+      <div className={['video-preview', horizontal, expanded].join(' ')}>
         <div className="image-container">
-          <Image src="http://via.placeholder.com/210x118" />
+          <Video url="http://localhost:5000/stream/1" controls={false} playing={false} />
           <div className="time-label">
             <span>05:22</span>
           </div>

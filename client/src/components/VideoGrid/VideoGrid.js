@@ -10,18 +10,20 @@ export function VideoGrid(props) {
       <div className="video-section">
         <VideoGridHeader title={props.title} />
         <div className="video-grid">
-          <VideoPreview />
-          <VideoPreview />
-          <VideoPreview />
-          <VideoPreview />
-          <VideoPreview />
-          <VideoPreview />
-          <VideoPreview />
-          <VideoPreview />
-          <VideoPreview />
-          <VideoPreview />
-          <VideoPreview />
-          <VideoPreview />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
+          <VideoPreview expanded={true} />
         </div>
       </div>
       {divider}
