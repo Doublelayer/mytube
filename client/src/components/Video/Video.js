@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
-import '../Video.scss';
+import './Video.scss';
 
 export default function Video(props) {
   if (!props.url) return null;
