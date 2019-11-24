@@ -1,76 +1,145 @@
 {
-    "movies": [
-        {
-            "id": 0,
-            "type": "file",
-            "extname": ".mp4",
-            "parent": "01_Videos",
-            "name": "1",
-            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\1.mp4"
-        },
-        {
-            "id": 1,
-            "type": "file",
-            "extname": ".mp4",
-            "parent": "01_Videos",
-            "name": "2",
-            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\2.mp4"
-        },
-        {
-            "id": 2,
-            "type": "file",
-            "extname": ".mp4",
-            "parent": "01_Videos",
-            "name": "3",
-            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\3.mp4"
-        },
-        {
-            "id": 3,
-            "type": "file",
-            "extname": ".mp4",
-            "parent": "01_Videos",
-            "name": "4",
-            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\4.mp4"
-        },
-        {
-            "id": 4,
-            "type": "file",
-            "extname": ".mp4",
-            "parent": "01_Videos",
-            "name": "5",
-            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\5.mp4"
-        },
-        {
-            "id": 5,
-            "type": "file",
-            "extname": ".mp4",
-            "parent": "01_Videos",
-            "name": "wordpress",
-            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\wordpress.mp4"
-        },
-        {
-            "id": 6,
-            "type": "file",
-            "extname": ".mp4",
-            "parent": "02_Videos",
-            "name": "6",
-            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\02_Videos\\6.mp4"
-        },
-        {
-            "id": 7,
-            "type": "file",
-            "extname": ".mp4",
-            "parent": "02_Videos",
-            "name": "7",
-            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\02_Videos\\7.mp4"
-        },
-        {
-            "id": 8,
-            "type": "file",
-            "extname": ".mp4",
-            "parent": "03_Videos",
-            "name": "8",
-            "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\02_Videos\\03_Videos\\8.mp4"
-        }
-    ]
+    "videos": {
+        "info": {},
+        "items": [
+            {
+                "id": 0,
+                "type": "file",
+                "extname": ".mp4",
+                "parent": "01_Videos",
+                "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\1.mp4",
+                "publishedAt": "2019-11-21T19:40:05.968Z",
+                "itemInfo": {
+                    "title": "1",
+                    "description": "..."
+                },
+                "statistics": {
+                    "viewCount": "0"
+                }
+            },
+            {
+                "id": 1,
+                "type": "file",
+                "extname": ".mp4",
+                "parent": "01_Videos",
+                "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\2.mp4",
+                "publishedAt": "2019-11-21T19:40:07.842Z",
+                "itemInfo": {
+                    "title": "2",
+                    "description": "..."
+                },
+                "statistics": {
+                    "viewCount": "0"
+                }
+            },
+            {
+                "id": 2,
+                "type": "file",
+                "extname": ".mp4",
+                "parent": "01_Videos",
+                "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\3.mp4",
+                "publishedAt": "2019-11-21T19:40:08.267Z",
+                "itemInfo": {
+                    "title": "3",
+                    "description": "..."
+                },
+                "statistics": {
+                    "viewCount": "0"
+                }
+            },
+            {
+                "id": 3,
+                "type": "file",
+                "extname": ".mp4",
+                "parent": "01_Videos",
+                "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\4.mp4",
+                "publishedAt": "2019-11-21T19:40:14.218Z",
+                "itemInfo": {
+                    "title": "4",
+                    "description": "..."
+                },
+                "statistics": {
+                    "viewCount": "0"
+                }
+            },
+            {
+                "id": 4,
+                "type": "file",
+                "extname": ".mp4",
+                "parent": "01_Videos",
+                "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\5.mp4",
+                "publishedAt": "2019-11-21T19:40:07.426Z",
+                "itemInfo": {
+                    "title": "5",
+                    "description": "..."
+                },
+                "statistics": {
+                    "viewCount": "0"
+                }
+            },
+            {
+                "id": 5,
+                "type": "file",
+                "extname": ".mp4",
+                "parent": "01_Videos",
+                "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\wordpress.mp4",
+                "publishedAt": "2019-11-22T18:43:25.687Z",
+                "itemInfo": {
+                    "title": "wordpress",
+                    "description": "..."
+                },
+                "statistics": {
+                    "viewCount": "0"
+                }
+            },
+            {
+                "id": 6,
+                "type": "file",
+                "extname": ".mp4",
+                "parent": "02_Videos",
+                "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\02_Videos\\6.mp4",
+                "publishedAt": "2019-11-21T19:40:17.407Z",
+                "itemInfo": {
+                    "title": "6",
+                    "description": "..."
+                },
+                "statistics": {
+                    "viewCount": "0"
+                }
+            },
+            {
+                "id": 7,
+                "type": "file",
+                "extname": ".mp4",
+                "parent": "02_Videos",
+                "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\02_Videos\\7.mp4",
+                "publishedAt": "2019-11-21T19:40:24.420Z",
+                "itemInfo": {
+                    "title": "7",
+                    "description": "..."
+                },
+                "statistics": {
+                    "viewCount": "0"
+                }
+            },
+            {
+                "id": 8,
+                "type": "file",
+                "extname": ".mp4",
+                "parent": "03_Videos",
+                "path": "C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\02_Videos\\03_Videos\\8.mp4",
+                "publishedAt": "2019-11-21T20:23:04.979Z",
+                "itemInfo": {
+                    "title": "8",
+                    "description": "..."
+                },
+                "statistics": {
+                    "viewCount": "0"
+                }
+            }
+        ]
+    },
+    "info": {
+        "totalResults": 8
+    }
 }

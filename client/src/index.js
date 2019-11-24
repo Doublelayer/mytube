@@ -3,14 +3,20 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import { App } from './utils/ComponentExporter';
 import { BrowserRouter } from 'react-router-dom';
+import { configureStore } from './store/configureStore';
+import { Provider } from 'react-redux';
 
 import 'semantic-ui-css/semantic.min.css';
 import './index.scss';
 
+const store = configureStore();
+
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 

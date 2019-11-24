@@ -6,6 +6,7 @@ export { default as Favorites } from '../containers/SideBar/Favorites/Favorites'
 export { default as VideoPreview } from '../components/VideoPreview/VideoPreview';
 export { default as Video } from '../components/Video/Video';
 
+export { HomeContent } from '../containers/Home/HomeContent/HomeContent';
 export { Comment } from '../containers/Comments/Comment/Comment';
 export { AddComment } from '../containers/Comments/AddComment/AddComment';
 export { Comments } from '../containers/Comments/Comments';

@@ -26,7 +26,7 @@ app.get('/generate', (req, res) => {
 });
 
 app.get('/stream/:id', function(req, res) {
-  const movie = _.where(moviesData.movies, { id: parseInt(req.params.id) });
+  const movie = _.where(moviesData.videos.items, { id: parseInt(req.params.id) });
 
   if (!movie[0]) return res.status(404).send('Not found...');
 
@@ -76,13 +76,14 @@ const generateMovieMetaData = function() {
 
   let id = 0;
 
-  var allFilePaths = { movies: [] };
+  var allFilePaths = { videos: { info: {}, items: [] } };
 
   readdirp(basepath, settings)
     .on('data', function(entry) {
       file = path.resolve(entry.fullPath);
+      stats = fs.statSync(file);
 
-      allFilePaths.movies.push({
+      allFilePaths.videos.items.push({
         id: id,
         type: 'file',
         extname: path.extname(file),
@@ -90,8 +91,15 @@ const generateMovieMetaData = function() {
           .dirname(entry.fullPath)
           .split(path.sep)
           .pop(),
-        name: path.basename(entry.fullPath, path.extname(file)),
-        path: entry.fullPath
+        path: entry.fullPath,
+        publishedAt: stats.birthtime,
+        itemInfo: {
+          title: path.basename(entry.fullPath, path.extname(file)),
+          description: '...'
+        },
+        statistics: {
+          viewCount: '0'
+        }
       });
       id++;
     })
@@ -103,6 +111,7 @@ const generateMovieMetaData = function() {
     })
     .on('end', function() {
       console.log(allFilePaths);
+      allFilePaths.info = { totalResults: id - 1 };
 
       fs.writeFile('./config/movies.json', JSON.stringify(allFilePaths, 0, 4), 'utf8', err => {
         if (err) console.log(err);
