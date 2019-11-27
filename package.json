@@ -11,9 +11,9 @@
     "prestart": "cd client && yarn build",
     "start": "set NODE_ENV=prod node server",
     "server": "set NODE_ENV=dev&& node server",
-    // "installclient": "cd client && pnpm install",
-    // "installserver": "cd server && pnpm install",
-    // "install": "\"installclient\" \"installserver\""
+    "installclient": "cd client && pnpm install",
+    "installserver": "cd server && pnpm install",
+    "install": "\"installclient\" \"installserver\""
   },
   "dependencies": {},
   "devDependencies": {}

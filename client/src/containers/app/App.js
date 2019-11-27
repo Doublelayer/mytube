@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AppLayout, Home, Watch } from '../../utils/ComponentExporter';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import './App.sass';
 
@@ -16,4 +16,5 @@ class App extends Component {
     );
   }
 }
-export default App;
+
+export default withRouter(App);

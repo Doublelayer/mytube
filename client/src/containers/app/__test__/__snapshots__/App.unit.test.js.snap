@@ -8,7 +8,15 @@ exports[`App renders 1`] = `
       path="/watch"
     />
     <Route
-      component={[Function]}
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(Home)",
+          "type": [Function],
+        }
+      }
       path="/"
     />
   </Switch>

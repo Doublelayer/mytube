@@ -1,31 +1,47 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
+import { secondsToTime } from '../../utils/time-formatter';
+import 'moment/locale/de';
+
 import { Video } from '../../utils/ComponentExporter';
 
 import './VideoPreview.scss';
 
 class VideoPreview extends Component {
   render() {
+    const { video } = this.props;
+
+    if (!video) {
+      return <div />;
+    }
+
     const horizontal = this.props.horizontal ? 'horizontal' : null;
     const expanded = this.props.expanded ? 'expanded' : null;
+    const { _id, streamUrl } = video;
+    const { title } = video.itemInfo;
 
     return (
-      <div className={['video-preview', horizontal, expanded].join(' ')}>
-        <div className="image-container">
-          <Video url="http://localhost:5000/stream/1" controls={false} playing={false} />
-          <div className="time-label">
-            <span>05:22</span>
+      <Link to={{ pathname: this.props.pathname, search: `id=${this.props.search}` }}>
+        <div className={['video-preview', horizontal, expanded].join(' ')}>
+          <div className="image-container">
+            <Video url={`${streamUrl}?id=${_id}`} controls={false} playing={false} />
+            <div className="time-label">
+              <span>{secondsToTime(video.duration)}</span>
+            </div>
           </div>
-        </div>
-        <div className="video-info">
-          <div className="semi-bold show-max-two-lines">Video title</div>
-          <div className="video-preview-metadata-container">
-            <div className="channel-title">Channel title</div>
-            <div>
-              <span>2.1M views • 2 days ago</span>
+          <div className="video-info">
+            <div className="semi-bold show-max-two-lines">{title}</div>
+            <div className="video-preview-metadata-container">
+              <div>
+                <span>
+                  {video.statistics.viewCount} Aufrufe • <Moment fromNow>{video.publishedAt}</Moment>
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }
 }

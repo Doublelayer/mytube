@@ -1,4 +1,4 @@
-@import '../../styles/shared.scss';
+@import "../../styles/shared.scss";
 
 .video-preview {
   display: grid;
@@ -21,6 +21,10 @@
       grid-column: 2 / 3;
     }
   }
+}
+
+.video-preview:hover {
+  cursor: pointer;
 }
 
 .video-info {

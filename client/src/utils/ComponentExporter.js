@@ -5,8 +5,10 @@ export { default as SideBarItem } from '../containers/SideBar/SideBarItem/SideBa
 export { default as Favorites } from '../containers/SideBar/Favorites/Favorites';
 export { default as VideoPreview } from '../components/VideoPreview/VideoPreview';
 export { default as Video } from '../components/Video/Video';
+export { default as Home } from '../containers/Home/Home';
+export { default as HomeContent } from '../containers/Home/HomeContent/HomeContent';
+export { default as Watch } from '../containers/Watch/Watch';
 
-export { HomeContent } from '../containers/Home/HomeContent/HomeContent';
 export { Comment } from '../containers/Comments/Comment/Comment';
 export { AddComment } from '../containers/Comments/AddComment/AddComment';
 export { Comments } from '../containers/Comments/Comments';
@@ -15,11 +17,9 @@ export { VideoInfoBox } from '../components/VideoInfoBox/VideoInfoBox';
 export { VideoMetadata } from '../components/VideoMetadata/VideoMetadata';
 export { NextUpVideo } from '../components/RelatedVideos/NextUpVideo/NextUpVideo';
 export { RelatedVideos } from '../components/RelatedVideos/RelatedVideos';
-export { Watch } from '../containers/Watch/Watch';
 export { SideBarHeader } from '../containers/SideBar/SideBarHeader/SideBarHeader';
 export { Favorite } from '../containers/SideBar/Favorites/Favorite/Favorite';
 export { SideBarFooter } from '../containers/SideBar/SideBarFooter/SideBarFooter';
-export { Home } from '../containers/Home/Home';
 export { VideoGrid } from '../components/VideoGrid/VideoGrid';
 export { VideoGridHeader } from '../components/VideoGrid/VideoGridHeader/VideoGridHeader';
 export { AppLayout } from '../components/AppLayout/AppLayout';

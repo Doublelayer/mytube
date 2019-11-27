@@ -1,9 +1,10 @@
 dependencies:
-  javascript-time-ago: 2.0.4
+  moment: 2.24.0
   node-sass: 4.13.0
   react: 16.12.0
   react-dom: 16.12.0_react@16.12.0
   react-linkify: 1.0.0-alpha
+  react-moment: 0.9.6_moment@2.24.0+react@16.12.0
   react-player: 1.14.2_react@16.12.0
   react-redux: 7.1.3_react@16.12.0+redux@4.0.4
   react-router-dom: 5.1.2_react@16.12.0
@@ -6479,12 +6480,6 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-SKi4rnMyLBKe0Jy2uUdx28h8oG7ph2PPuQPvIAh31d+Ci+lSiEu4C+h3oBPuJ9+mPKhOyW0M8gY4U5NM1WLeXA==
-  /javascript-time-ago/2.0.4:
-    dependencies:
-      relative-time-format: 0.1.3
-    dev: false
-    resolution:
-      integrity: sha512-p4flGt34MFUT8BW+UtRN5BOq28qndYALMoqP18FeixUw4InfA7MRay/wkSOorB+wnxTfnWYpqy9U1kcbUEdk5Q==
   /jest-changed-files/24.9.0:
     dependencies:
       '@jest/types': 24.9.0
@@ -7687,6 +7682,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
+  /moment/2.24.0:
+    dev: false
+    resolution:
+      integrity: sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
   /moo/0.4.3:
     dev: true
     resolution:
@@ -9601,6 +9600,17 @@ packages:
     dev: false
     resolution:
       integrity: sha512-7gcIUvJkAXXttt1fmBK9cwn+1jTa4hbKLGCZ9J1U6EOkyb2/+LKL1Z28d9rtDLMnpvImlNlLPdTPooorl5cpmg==
+  /react-moment/0.9.6_moment@2.24.0+react@16.12.0:
+    dependencies:
+      moment: 2.24.0
+      react: 16.12.0
+    dev: false
+    peerDependencies:
+      moment: ^2.24.0
+      prop-types: ^15.7.2
+      react: ^15.6.0 || ^16.0.0
+    resolution:
+      integrity: sha512-GAnd5NRIpGjDqLoGahJCkiCEQS1d8+dIZbIfPuy/eQ0O5Rio43fEkj5G+qrKbZCQY55fiNafpHpuirVIHqPoSg==
   /react-player/1.14.2_react@16.12.0:
     dependencies:
       deepmerge: 4.2.2
@@ -9991,10 +10001,6 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
-  /relative-time-format/0.1.3:
-    dev: false
-    resolution:
-      integrity: sha512-0O6i4fKjsx8qhz57zorG+LrIDnF9pSvP5s7H9R1Nb5nSqih5dvRyKzNKs6MxhL3bv4iwsz4DuDwAyw+c47QFIA==
   /remove-trailing-separator/1.1.0:
     dev: false
     resolution:
@@ -12164,11 +12170,12 @@ specifiers:
   enzyme: ^3.10.0
   enzyme-adapter-react-16: ^1.14.0
   enzyme-to-json: ^3.3.5
-  javascript-time-ago: ^2.0.1
+  moment: ^2.24.0
   node-sass: ^4.12.0
   react: ^16.8.6
   react-dom: ^16.8.6
   react-linkify: ^1.0.0-alpha
+  react-moment: ^0.9.6
   react-player: ^1.14.2
   react-redux: ^7.0.3
   react-router-dom: ^5.0.1

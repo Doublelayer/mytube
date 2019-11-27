@@ -1,36 +1,99 @@
 const fs = require('fs');
 const _ = require('underscore');
-const readdirp = require('readdirp');
-const path = require('path');
+
+const db = require('./database');
+const helpers = require('./utils/helpers');
+const dirScanner = require('./utils/dirScanner');
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
 
-const moviesData = require('./config/movies.json');
+app.use(cors());
 
 app.get('/api/hello', (req, res) => {
-  let hello = { homehost: 'Hello' };
-  res.json(hello);
+  res.status(200).send(`App is listening on Port: ${port} `);
 });
 
-app.get('/videos', function(req, res) {
-  res.status(200).json(moviesData);
+app.get('/pagination', (req, res) => {
+  db.pagination();
 });
 
-app.get('/generate', (req, res) => {
-  //   if (process.env.NODE_ENV !== 'dev') return res.status(405).json('Dev mode only');
+app.get('/find', (req, res) => {
+  const id = req.query.id;
 
-  generateMovieMetaData();
-  res.status(200).send('Generating metadata. Please wait...');
+  db.find({ _id: id }, { path: 0, type: 0, extname: 0 })
+    .then(doc => {
+      res.status(200).json(doc);
+    })
+    .catch(err => {
+      res.status(400).json([{ ERROR: `There was an Error while deleting documents`, IFNO: err }]);
+    });
 });
 
-app.get('/stream/:id', function(req, res) {
-  const movie = _.where(moviesData.videos.items, { id: parseInt(req.params.id) });
+app.get('/all', (req, res) => {
+  db.find({}, { path: 0, type: 0, extname: 0 })
+    .then(docs => {
+      res.status(200).json({ videos: { info: { totalResults: docs.length }, docs } });
+    })
+    .catch(err => {
+      res.status(400).json([{ ERROR: `There was an Error while deleting documents`, IFNO: err }]);
+    });
+});
 
-  if (!movie[0]) return res.status(404).send('Not found...');
+/* 
+  This Endpoint removes all documents from the databas (DEV-MODE only!)
 
-  const path = movie[0].path;
+  On Success: Status 200, Message with the count of removed documents
+  On Failure: Status 400, Message with error info
+*/
+app.get('/reset-db', (req, res) => {
+  if (!helpers.isDevMode()) return res.status(405).json('Dev mode only');
+
+  db.removeAllDocs()
+    .then(numRemoved => {
+      res.status(200).send(`Successfully created ${numRemoved} Documents and stored in Database...`);
+    })
+    .catch(err => {
+      res.status(400).json([{ ERROR: `There was an Error while deleting documents`, IFNO: err }]);
+    });
+});
+
+/* 
+   This Endpoint will generate video items and store it in the databse (DEV-Mode only!)
+   1. It removes all documents from the database
+   2. It generate the metadata of all found videos
+   3. It will try to stored it in the database
+
+   On Succsess : Status 200, Message with inserted docs count
+   On Failure  : Status 400, Message with error info
+*/
+app.get('/generate', async (req, res) => {
+  // if (!helpers.isDevMode()) return res.status(405).json('Dev mode only');
+
+  db.removeAllDocs();
+
+  basePath = 'C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos';
+
+  await dirScanner.generateMovieMetaData(basePath).then(items => {
+    db.insert(items)
+      .then(insertedCount => {
+        res.status(200).send(`Successfully inserted ${insertedCount}`);
+      })
+      .catch(err => {
+        res.status(400).json([{ ERROR: `There was an Error while inserting documents`, IFNO: err }]);
+      });
+  });
+});
+
+app.get('/stream', async (req, res) => {
+  // const movie = _.where(moviesData.videos.items, { id: parseInt(req.params.id) });
+  const movie = await db.findById(req.query.id);
+
+  if (!movie) return res.status(404).send('Not found...');
+
+  const path = movie.path;
   const stat = fs.statSync(path);
   const fileSize = stat.size;
   const range = req.headers.range;
@@ -65,59 +128,5 @@ app.get('/stream/:id', function(req, res) {
     fs.createReadStream(path).pipe(res);
   }
 });
-
-const generateMovieMetaData = function() {
-  const basepath = 'C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos'; // this will be prepended to the paths found in the structure
-
-  var settings = {
-    type: 'files',
-    fileFilter: ['*.mp4']
-  };
-
-  let id = 0;
-
-  var allFilePaths = { videos: { info: {}, items: [] } };
-
-  readdirp(basepath, settings)
-    .on('data', function(entry) {
-      file = path.resolve(entry.fullPath);
-      stats = fs.statSync(file);
-
-      allFilePaths.videos.items.push({
-        id: id,
-        type: 'file',
-        extname: path.extname(file),
-        parent: path
-          .dirname(entry.fullPath)
-          .split(path.sep)
-          .pop(),
-        path: entry.fullPath,
-        publishedAt: stats.birthtime,
-        itemInfo: {
-          title: path.basename(entry.fullPath, path.extname(file)),
-          description: '...'
-        },
-        statistics: {
-          viewCount: '0'
-        }
-      });
-      id++;
-    })
-    .on('warn', function(warn) {
-      console.log('Warn: ', warn);
-    })
-    .on('error', function(err) {
-      console.log('Error: ', err);
-    })
-    .on('end', function() {
-      console.log(allFilePaths);
-      allFilePaths.info = { totalResults: id - 1 };
-
-      fs.writeFile('./config/movies.json', JSON.stringify(allFilePaths, 0, 4), 'utf8', err => {
-        if (err) console.log(err);
-        else console.log('[MOVIES] File saved');
-      });
-    });
-};
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

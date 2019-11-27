@@ -1,0 +1,113 @@
+const readdirp = require('readdirp');
+const fs = require('fs');
+const path = require('path');
+const { getVideoDurationInSeconds } = require('get-video-duration');
+
+function generateMovieMetaData(basepath) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const items = [];
+      const settings = {
+        type: 'files',
+        fileFilter: ['*.mp4']
+      };
+
+      const files = await readdirp.promise(basepath, settings);
+
+      for (const entry of files) {
+        const file = path.resolve(entry.fullPath);
+        const stats = fs.statSync(file);
+
+        items.push({
+          type: 'video',
+          extname: path.extname(file),
+          parent: path
+            .dirname(entry.fullPath)
+            .split(path.sep)
+            .pop(),
+          path: entry.fullPath,
+          streamUrl: `http://localhost:5000/stream/`,
+          publishedAt: stats.birthtime,
+          duration: await getVideoDurationInSeconds(entry.fullPath),
+          itemInfo: {
+            title: path.basename(entry.fullPath, path.extname(file)),
+            description: '...'
+          },
+          statistics: {
+            viewCount: '0'
+          }
+        });
+      }
+
+      resolve(items);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+// async function generateMovieMetaData(basepath) {
+//   const settings = {
+//     type: 'files',
+//     fileFilter: ['*.mp4']
+//   };
+
+//   const result = mediainfo('C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos\\5.mp4');
+//   // console.log(result.media.track[0].Duration);
+
+//   const items = [];
+
+//   const files = await readdirp.promise(basepath, settings);
+
+//   for (const entry of files) {
+//     // const du = await getVideoDurationInSeconds(file.fullPath);
+
+//     const file = path.resolve(entry.fullPath);
+//     const stats = fs.statSync(file);
+
+//     console.log(entry);
+//     items.push({
+//       type: 'video',
+//       extname: path.extname(file),
+//       parent: path
+//         .dirname(entry.fullPath)
+//         .split(path.sep)
+//         .pop(),
+//       path: entry.fullPath,
+//       streamUrl: `http://localhost:5000/stream/`,
+//       publishedAt: stats.birthtime,
+//       duratin: await getVideoDurationInSeconds(entry.fullPath),
+//       itemInfo: {
+//         title: path.basename(entry.fullPath, path.extname(file)),
+//         description: '...'
+//       },
+//       statistics: {
+//         viewCount: '0'
+//       }
+//     });
+//   }
+//   return items;
+
+//   // await asyncForEach(files, async file => {
+//   //   const b = await getVideoDurationInSeconds(file.fullPath);
+//   //   console.log(b);
+//   // });
+
+//   // readdirp(basepath, settings)
+//   //   .on('data', async entry => {
+//   //     const file = path.resolve(entry.fullPath);
+//   //     const stats = fs.statSync(file);
+
+//   //   })
+//   //   .on('warn', function(warn) {
+//   //     console.log('Warn: ', warn);
+//   //   })
+//   //   .on('error', function(err) {
+//   //     console.log('Error: ', err);
+//   //   })
+//   //   .on('end', () => {
+//   //     callback(items);
+//   //   });
+// }
+
+module.exports = { generateMovieMetaData };
