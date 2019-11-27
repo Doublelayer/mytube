@@ -12,14 +12,13 @@ class Watch extends React.Component {
     if (!this.props.video) {
       return <div />;
     }
-    const { streamUrl, _id, statistics, itemInfo } = this.props.video;
-    console.log(this.props.video);
+    const { streamUrl, _id, statistics, itemInfo, parent, publishedAt } = this.props.video;
 
     return (
       <div className="watch-grid">
         <Video class="video" url={`${streamUrl}?id=${_id}`} controls={true} playing={true} />
         <VideoMetadata viewCount={statistics.viewCount} title={itemInfo.title} />
-        <VideoInfoBox />
+        <VideoInfoBox parent={parent} publishedAt={publishedAt} description={itemInfo.description} />
         <Comments />
         <RelatedVideos className="relatedVideos" />
       </div>
