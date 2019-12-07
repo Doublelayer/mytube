@@ -1,37 +1,48 @@
 import React from 'react';
 import './Home.scss';
 import { HomeContent, SideBar } from '../../utils/ComponentExporter';
+import { mostPopularVideosLoaded } from '../../store/reducers/video';
 
 import { connect } from 'react-redux';
 import * as videoActions from '../../store/actions/video';
 import { bindActionCreators } from 'redux';
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      categoryIndex: 0
-    };
-  }
   render() {
     return (
       <React.Fragment>
         <SideBar />
-        <HomeContent />
+        <HomeContent bottomReachedCallback={this.bottomReachedCallback} showLoader={this.props.isFetching} />
       </React.Fragment>
     );
   }
   componentDidMount() {
-    this.props.actions.fetchAllVideos();
+    this.props.actions.fetchMostPopular(0, 40);
   }
-}
 
-function mapDispatchToProps(dispatch) {
-  const fetchAllVideos = videoActions.mostPopular.request;
+  bottomReachedCallback = () => {
+    if (!this.props.mostPopularVideosLoaded && !this.props.isFetching) {
+      return;
+    }
 
-  return {
-    actions: bindActionCreators({ fetchAllVideos }, dispatch)
+    this.props.actions.fetchMostPopular(this.props.nextSkip, 10);
   };
 }
 
-export default connect(null, mapDispatchToProps)(Home);
+function mapStateToProps(state) {
+  return {
+    mostPopularVideosLoaded: mostPopularVideosLoaded(state),
+    nextSkip: state.videos.byCategory.mostPopular.nextSkip,
+    isFetching: state.videos.byCategory.mostPopular.isFetching
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  const fetchMostPopular = videoActions.mostPopular.request;
+
+  return {
+    actions: bindActionCreators({ fetchMostPopular }, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

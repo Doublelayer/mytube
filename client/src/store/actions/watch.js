@@ -8,12 +8,10 @@ export const details = {
   failure: response => createAction(WATCH_DETAILS[FAILURE], { response })
 };
 
-export const VIDEO_DETAILS = createRequestTypes('VIDEO_DETAILS');
+export const VIEW_COUNT = createRequestTypes('VIEW_COUNT');
 
-export const videoDetails = {
-  request: () => {
-    throw Error('not implemented');
-  },
-  success: response => createAction(VIDEO_DETAILS[SUCCESS], { response }),
-  failure: response => createAction(VIDEO_DETAILS[FAILURE], { response })
+export const viewCount = {
+  request: videoId => createAction(VIEW_COUNT[REQUEST], { videoId }),
+  success: response => createAction(VIEW_COUNT[SUCCESS], { response }),
+  failure: response => createAction(VIEW_COUNT[FAILURE], { response })
 };

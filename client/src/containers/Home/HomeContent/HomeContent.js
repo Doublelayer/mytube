@@ -1,5 +1,5 @@
 import React from 'react';
-import { VideoGrid } from '../../../utils/ComponentExporter';
+import { VideoGrid, InfiniteScroll } from '../../../utils/ComponentExporter';
 import './HomeContent.scss';
 
 import { getMostPopularVideos } from '../../../store/reducers/video';
@@ -12,14 +12,16 @@ class HomeContent extends React.Component {
     return (
       <div className="home-content">
         <div className="responsive-video-grid-container">
-          <VideoGrid title="Trending" videos={trendingVideos} />
-          {/* <VideoGrid title="Autos & Vehicles" hideDivider={true} /> */}
+          <InfiniteScroll bottomReachedCallback={this.props.bottomReachedCallback} showLoader={this.props.showLoader}>
+            <VideoGrid title="Trending" videos={trendingVideos} />
+            {/* <VideoGrid title="Autos & Vehicles" hideDivider={true} /> */}
+          </InfiniteScroll>
         </div>
       </div>
     );
   }
   getTrendingVideos() {
-    return this.props.mostPopularVideos;
+    return this.props.mostPopularVideos.sort((a, b) => b.statistics.viewCount - a.statistics.viewCount);
   }
 }
 

@@ -8,7 +8,7 @@ export default function*() {
 
 export function* fetchEntity(endpoint, entity, ...args) {
   try {
-    const json = yield fetch(endpoint)
+    const json = yield fetch(endpoint, { method: 'GET' })
       .then(response => response.json())
       .then(myJson => myJson);
 

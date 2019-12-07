@@ -3,7 +3,7 @@
   width: 100%;
 
   &:before {
-    content: '';
+    content: "";
     display: block;
     padding-top: 56.25%; // 9 / 16 in percent
   }
@@ -19,6 +19,13 @@
       min-height: 480px;
       width: 100%;
       height: 100%;
+    }
+  }
+  .react-player__play-icon {
+    display: none;
+    .react-player__shadow {
+      display: none;
+      background: none;
     }
   }
 }

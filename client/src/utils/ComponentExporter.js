@@ -9,6 +9,7 @@ export { default as Home } from '../containers/Home/Home';
 export { default as HomeContent } from '../containers/Home/HomeContent/HomeContent';
 export { default as Watch } from '../containers/Watch/Watch';
 
+export { InfiniteScroll } from '../components/InfiniteScroll/InfiniteScroll';
 export { Comment } from '../containers/Comments/Comment/Comment';
 export { AddComment } from '../containers/Comments/AddComment/AddComment';
 export { Comments } from '../containers/Comments/Comments';

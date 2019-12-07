@@ -5,40 +5,67 @@ const db = require('./database');
 const helpers = require('./utils/helpers');
 const dirScanner = require('./utils/dirScanner');
 
+const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
 
+const IGNORE = { path: 0, type: 0, extname: 0 };
+
 app.use(cors());
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
+app.use(bodyParser.json());
 
 app.get('/api/hello', (req, res) => {
   res.status(200).send(`App is listening on Port: ${port} `);
 });
 
-app.get('/pagination', (req, res) => {
-  db.pagination();
-});
+app.get('/update-view-count', async (req, res) => {
+  const id = req.query.$id;
+  if (!id) return res.status(400).send('ID required!');
 
-app.get('/find', (req, res) => {
-  const id = req.query.id;
+  const element = await db.findById(id);
+  if (!element) return res.status(404).send(`Item with '${id}' not found!`);
 
-  db.find({ _id: id }, { path: 0, type: 0, extname: 0 })
-    .then(doc => {
-      res.status(200).json(doc);
+  db.update(id, { $set: { statistics: { viewCount: ++element.statistics.viewCount } } })
+    .then(() => {
+      res.status(200).json({ message: 'succsess' });
     })
     .catch(err => {
-      res.status(400).json([{ ERROR: `There was an Error while deleting documents`, IFNO: err }]);
+      res.status(400).json([{ ERROR: `There was an Error while updating document`, IFNO: err }]);
     });
 });
 
-app.get('/all', (req, res) => {
-  db.find({}, { path: 0, type: 0, extname: 0 })
+app.get('/find', async (req, res) => {
+  if (!req.query.$id) return res.status(400).send('ID required!');
+
+  const element = await db.findById(req.query.$id, IGNORE);
+  if (!element) return res.status(404).send(`Item with '${req.body.id}' not found!`);
+
+  return res.status(200).json(element);
+});
+
+app.get('/videos', (req, res) => {
+  const params = {
+    ignore: IGNORE,
+    sortBy: req.query.$sort,
+    limit: req.query.$limit,
+    skip: req.query.$skip,
+    type: req.query.$type,
+    category: req.query.$type
+  };
+
+  db.getVideos(params)
     .then(docs => {
-      res.status(200).json({ videos: { info: { totalResults: docs.length }, docs } });
+      res.status(200).json({ info: { totalResults: docs.length }, docs });
     })
     .catch(err => {
-      res.status(400).json([{ ERROR: `There was an Error while deleting documents`, IFNO: err }]);
+      res.status(400).json([{ ERROR: `There was an Error while searching for documents`, IFNO: err }]);
     });
 });
 
@@ -74,7 +101,7 @@ app.get('/generate', async (req, res) => {
 
   db.removeAllDocs();
 
-  basePath = 'C:\\Users\\Florin Hamann\\Documents\\Development\\directory-tree\\01_Videos';
+  basePath = 'C:\\Users\\Florin Hamann\\Documents\\Development\\youtube-clone\\server\\__test_data\\01_Videos';
 
   await dirScanner.generateMovieMetaData(basePath).then(items => {
     db.insert(items)
@@ -89,9 +116,9 @@ app.get('/generate', async (req, res) => {
 
 app.get('/stream', async (req, res) => {
   // const movie = _.where(moviesData.videos.items, { id: parseInt(req.params.id) });
-  const movie = await db.findById(req.query.id);
+  const movie = await db.findById(req.query.$id);
 
-  if (!movie) return res.status(404).send('Not found...');
+  if (!movie) return res.status(404).send(`Video with '${req.query.id}' not found`);
 
   const path = movie.path;
   const stat = fs.statSync(path);

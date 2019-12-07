@@ -25,6 +25,15 @@ function insert(...args) {
   });
 }
 
+function update(id, args) {
+  return new Promise((resolve, reject) => {
+    db.update({ _id: id }, args, { multi: true }, function(err, numReplaced) {
+      if (err) reject(err);
+      resolve(numReplaced);
+    });
+  });
+}
+
 function find(findBy, projections) {
   return new Promise((resolve, reject) => {
     db.find(findBy, projections, function(err, docs) {
@@ -35,25 +44,32 @@ function find(findBy, projections) {
   });
 }
 
-function findById(id) {
+function findById(id, projections) {
   return new Promise((resolve, reject) => {
-    db.findOne({ _id: id }, function(err, doc) {
+    db.findOne({ _id: id }, projections, function(err, doc) {
       if (err) reject(err);
 
       resolve(doc);
     });
   });
 }
+function getVideos(params) {
+  return new Promise((resolve, reject) => {
+    const { type, projections, sortBy, skip, limit } = params;
+    var cursor = db.find({ type: type }, projections);
 
-function pagination() {
-  db.find({})
-    .sort({ publishedAt: -1 })
-    .skip(1)
-    .limit(2)
-    .exec(function(err, docs) {
-      // docs is [doc3, doc1]
-      console.log(docs);
+    if (sortBy) cursor.sort(JSON.parse(`${sortBy}`));
+
+    if (!isNaN(skip)) cursor.skip(parseInt(skip));
+
+    if (!isNaN(limit)) cursor.limit(parseInt(limit));
+
+    cursor.exec(function(err, docs) {
+      if (err) reject(err);
+
+      resolve(docs);
     });
+  });
 }
 
-module.exports = { removeAllDocs, insert, find, findById, pagination };
+module.exports = { removeAllDocs, insert, find, findById, getVideos, update };

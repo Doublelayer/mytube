@@ -9,7 +9,7 @@ function generateMovieMetaData(basepath) {
       const items = [];
       const settings = {
         type: 'files',
-        fileFilter: ['*.mp4']
+        fileFilter: ['*.mp4', '*.flv', '*.ogv', '*.webm']
       };
 
       const files = await readdirp.promise(basepath, settings);
@@ -29,12 +29,13 @@ function generateMovieMetaData(basepath) {
           streamUrl: `http://localhost:5000/stream/`,
           publishedAt: stats.birthtime,
           duration: await getVideoDurationInSeconds(entry.fullPath),
+          thumbnail: 'https://i.ytimg.com/vi/duJNVv9m2NY/maxresdefault.jpg',
           itemInfo: {
             title: path.basename(entry.fullPath, path.extname(file)),
             description: '...'
           },
           statistics: {
-            viewCount: '0'
+            viewCount: 0
           }
         });
       }
