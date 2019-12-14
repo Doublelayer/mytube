@@ -17,14 +17,13 @@ class Home extends React.Component {
     );
   }
   componentDidMount() {
-    this.props.actions.fetchMostPopular(0, 40);
+    if (!this.props.mostPopularVideosLoaded) this.props.actions.fetchMostPopular(0, 40);
   }
 
   bottomReachedCallback = () => {
-    if (!this.props.mostPopularVideosLoaded && !this.props.isFetching) {
+    if (!this.props.mostPopularVideosLoaded || this.props.isFetching) {
       return;
     }
-
     this.props.actions.fetchMostPopular(this.props.nextSkip, 10);
   };
 }
@@ -32,8 +31,8 @@ class Home extends React.Component {
 function mapStateToProps(state) {
   return {
     mostPopularVideosLoaded: mostPopularVideosLoaded(state),
-    nextSkip: state.videos.byCategory.mostPopular.nextSkip,
-    isFetching: state.videos.byCategory.mostPopular.isFetching
+    nextSkip: state.videos.nextSkip,
+    isFetching: state.videos.isFetching
   };
 }
 

@@ -38,7 +38,6 @@ function reduceFetchMostPopular(response, prevState) {
   items = [...prevState.byCategory.mostPopular.items, ...items];
 
   const mostPopular = {
-    nextSkip: prevState.byCategory.mostPopular.items.length + response.info.totalResults,
     items
   };
 
@@ -46,7 +45,8 @@ function reduceFetchMostPopular(response, prevState) {
     ...prevState,
     byCategory: { mostPopular },
     byId: { ...prevState.byId, ...videoMap },
-    isFetching: false
+    isFetching: false,
+    nextSkip: prevState.byCategory.mostPopular.items.length + response.info.totalResults
   };
 }
 

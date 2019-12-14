@@ -16,7 +16,7 @@ class Watch extends React.Component {
 
     return (
       <div className="watch-grid">
-        <Video class="video" url={`${streamUrl}?$id=${_id}`} controls={true} playing={true} />
+        <Video class="video" url={`${streamUrl}?$id=${_id}`} controls={true} playing={true} light={false} />
         <VideoMetadata viewCount={statistics.viewCount} title={itemInfo.title} />
         <VideoInfoBox parent={parent} publishedAt={publishedAt} description={itemInfo.description} />
         <Comments />
