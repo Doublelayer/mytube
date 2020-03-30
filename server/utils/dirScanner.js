@@ -7,7 +7,7 @@ const db = require('../database');
 function generateMovieMetaData(basepath) {
   return new Promise(async (resolve, reject) => {
     try {
-      const items = [];
+      insertedCount = 0;
       const settings = {
         type: 'files',
         fileFilter: ['*.mp4', '*.flv', '*.ogv', '*.webm', '*.mpg', '*.avi', '*.wmv', '*.mov', '*.mts', '*.mkv', '*.MOV']
@@ -20,6 +20,7 @@ function generateMovieMetaData(basepath) {
           .then(item => {
             db.insert(item)
               .then(() => {
+                insertedCount++;
                 console.log(`Insert new Item: ${item.itemInfo.title}${item.extname}`);
               })
               .catch(err => {
@@ -31,7 +32,7 @@ function generateMovieMetaData(basepath) {
           });
       }
 
-      resolve(null);
+      resolve(insertedCount);
     } catch (error) {
       reject(error);
     }
@@ -55,7 +56,7 @@ async function createVideoItem(entry) {
         streamUrl: `http://localhost:5000/stream/`,
         publishedAt: stats.birthtime,
         duration: await getVideoDuration(entry.fullPath),
-        thumbnail: 'https://i.ytimg.com/vi/duJNVv9m2NY/maxresdefault.jpg',
+        thumbnail: `http://localhost:5000/stream/`,
         itemInfo: {
           title: path.basename(entry.fullPath, path.extname(file)),
           description: '...'

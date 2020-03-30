@@ -2,6 +2,7 @@ dependencies:
   body-parser: 1.19.0
   cors: 2.8.5
   express: 4.17.1
+  fluent-ffmpeg: 2.1.2
   get-video-duration: 1.0.3
   nedb: 1.8.0
   underscore: 1.9.1
@@ -92,6 +93,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-trvgsGdLnXGXCMo43owjfLUmw9E=
+  /async/3.2.0:
+    dev: false
+    resolution:
+      integrity: sha512-TR2mEZFVOj2pLStYxLht7TyfuRzaydfpxr3k9RpHIzMgw7A64dzsdqCxH1WJyQdoe8T10nDXd9wnEigmiuHIZw==
   /atob/2.1.2:
     dev: true
     engines:
@@ -626,6 +631,15 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-aAWcW57uxVNrQZqFXjITpW3sIUQmHGG3qSb9mUah9MgMC4NeWhNOlNjXEYq3HjRAvL6arUviZGGJsBg6z0zsWA==
+  /fluent-ffmpeg/2.1.2:
+    dependencies:
+      async: 3.2.0
+      which: 1.3.1
+    dev: false
+    engines:
+      node: '>=0.8.0'
+    resolution:
+      integrity: sha1-yVLeIkD4EuvaCqgAbXd27irPfXQ=
   /for-in/1.0.2:
     dev: true
     engines:
@@ -1998,6 +2012,7 @@ specifiers:
   body-parser: ^1.19.0
   cors: ^2.8.5
   express: ^4.17.1
+  fluent-ffmpeg: ^2.1.2
   get-video-duration: ^1.0.3
   nedb: ^1.8.0
   nodemon: ^1.11.0

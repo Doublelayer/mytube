@@ -38,15 +38,14 @@ function find(findBy, projections) {
   return new Promise((resolve, reject) => {
     db.find(findBy, projections, function(err, docs) {
       if (err) reject(err);
-
       resolve(docs);
     });
   });
 }
 
-function findById(id, projections) {
+function findById(id) {
   return new Promise((resolve, reject) => {
-    db.findOne({ _id: id }, projections, function(err, doc) {
+    db.findOne({ _id: id }, function(err, doc) {
       if (err) reject(err);
 
       resolve(doc);

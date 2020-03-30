@@ -98,23 +98,21 @@ app.get('/reset-db', (req, res) => {
 */
 app.get('/generate', async (req, res) => {
   // if (!helpers.isDevMode()) return res.status(405).json('Dev mode only');
-  res.status(200).send(`Successfully inserted`);
+  // res.status(200).send(`Successfully inserted`);
 
   db.removeAllDocs();
 
   // basePath = 'C:\\Users\\Florin Hamann\\Documents\\Development\\youtube-clone\\server\\__test_data\\01_Videos';
-  basePath = 'Z:\\Bilder\\2012_02_01 -  1er und 2er Urlaubstag (Sekt&Kontiki)';
+  basePath = 'Z:\\Bilder';
 
-  await dirScanner.generateMovieMetaData(basePath).then(items => {
-    // db.insert(items)
-    //   .then(insertedCount => {
-    //     console.log('Finished...');
-    //     // res.status(200).send(`Successfully inserted ${insertedCount}`);
-    //   })
-    //   .catch(err => {
-    //     res.status(400).json([{ ERROR: `There was an Error while inserting documents`, IFNO: err }]);
-    //   });
-  });
+  await dirScanner
+    .generateMovieMetaData(basePath)
+    .then(insertedCount => {
+      res.status(200).send(`Successfully inserted ${insertedCount} videos`);
+    })
+    .catch(err => {
+      res.status(400).json([{ ERROR: `There was an Error while generating documents`, IFNO: err }]);
+    });
 });
 
 app.get('/stream', async (req, res) => {

@@ -18,14 +18,14 @@ class VideoPreview extends Component {
 
     const horizontal = this.props.horizontal ? 'horizontal' : null;
     const expanded = this.props.expanded ? 'expanded' : null;
-    const { _id, thumbnail, parent } = video;
+    const { _id, thumbnail, parent, streamUrl } = video;
     const { title } = video.itemInfo;
 
     return (
       <Link to={{ pathname: this.props.pathname, search: `id=${this.props.search}` }}>
         <div className={['video-preview', horizontal, expanded].join(' ')}>
           <div className="image-container">
-            <Video url={thumbnail} controls={false} playing={false} light={thumbnail} />
+            <Video url={`${streamUrl}?$id=${_id}`} controls={false} playing={false} />
             <div className="time-label">
               <span>{secondsToTime(video.duration)}</span>
             </div>

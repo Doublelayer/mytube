@@ -15,6 +15,7 @@
     "installserver": "cd server && pnpm install",
     "install": "\"installclient\" \"installserver\""
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "concurrently": "^5.1.0"
+  }
 }
