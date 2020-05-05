@@ -1,3 +1,5 @@
+dependencies:
+  dotenv: 8.2.0
 devDependencies:
   concurrently: 5.1.0
 lockfileVersion: 5.1
@@ -77,6 +79,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
+  /dotenv/8.2.0:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
   /emoji-regex/7.0.3:
     dev: true
     resolution:
@@ -361,3 +369,4 @@ packages:
       integrity: sha512-AX3Zw5iPruN5ie6xGRIDgqkT+ZhnRlZMLMHAs8tg7nRruy2Nb+i5o9bwghAogtM08q1dpr2LVoS8KSTMYpWXUw==
 specifiers:
   concurrently: ^5.1.0
+  dotenv: ^8.2.0

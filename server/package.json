@@ -4,20 +4,30 @@
   "author": "doublelayer",
   "license": "MIT",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "node src/index.js",
+    "mongo:start": "docker run -d --name realworld-mongo -p 27017:27017 mongo",
+    "dev": "nodemon src/index.js"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "curl-request": "^1.1.1",
+    "ejs": "^3.1.2",
+    "errorhandler": "^1.5.1",
     "express": "^4.17.1",
+    "express-catch-errors": "^0.1.0",
     "fluent-ffmpeg": "^2.1.2",
+    "form-data": "^3.0.0",
     "get-video-duration": "^1.0.3",
+    "mongoose": "^5.9.11",
+    "morgan": "^1.10.0",
     "nedb": "^1.8.0",
-    "underscore": "^1.9.1"
+    "underscore": "^1.9.1",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0",
+    "nodemon": "^1.19.4",
     "readdirp": "^3.2.0"
   }
 }

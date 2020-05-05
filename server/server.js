@@ -16,7 +16,7 @@ const IGNORE = { path: 0, type: 0, extname: 0 };
 app.use(cors());
 app.use(
   bodyParser.urlencoded({
-    extended: true
+    extended: true,
   })
 );
 app.use(bodyParser.json());
@@ -36,7 +36,7 @@ app.get('/update-view-count', async (req, res) => {
     .then(() => {
       res.status(200).json({ message: 'succsess' });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json([{ ERROR: `There was an Error while updating document`, IFNO: err }]);
     });
 });
@@ -57,14 +57,14 @@ app.get('/videos', (req, res) => {
     limit: req.query.$limit,
     skip: req.query.$skip,
     type: req.query.$type,
-    category: req.query.$type
+    category: req.query.$type,
   };
 
   db.getVideos(params)
-    .then(docs => {
+    .then((docs) => {
       res.status(200).json({ info: { totalResults: docs.length }, docs });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json([{ ERROR: `There was an Error while searching for documents`, IFNO: err }]);
     });
 });
@@ -79,10 +79,10 @@ app.get('/reset-db', (req, res) => {
   if (!helpers.isDevMode()) return res.status(405).json('Dev mode only');
 
   db.removeAllDocs()
-    .then(numRemoved => {
+    .then((numRemoved) => {
       res.status(200).send(`Successfully created ${numRemoved} Documents and stored in Database...`);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json([{ ERROR: `There was an Error while deleting documents`, IFNO: err }]);
     });
 });
@@ -103,14 +103,14 @@ app.get('/generate', async (req, res) => {
   db.removeAllDocs();
 
   // basePath = 'C:\\Users\\Florin Hamann\\Documents\\Development\\youtube-clone\\server\\__test_data\\01_Videos';
-  basePath = 'Z:\\Bilder';
+  basePath = './__test_data';
 
   await dirScanner
     .generateMovieMetaData(basePath)
-    .then(insertedCount => {
+    .then((insertedCount) => {
       res.status(200).send(`Successfully inserted ${insertedCount} videos`);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json([{ ERROR: `There was an Error while generating documents`, IFNO: err }]);
     });
 });
@@ -122,7 +122,12 @@ app.get('/stream', async (req, res) => {
   if (!movie) return res.status(404).send(`Video with '${req.query.id}' not found`);
 
   const path = movie.path;
-  const stat = fs.statSync(path);
+  var stat;
+  try {
+    stat = fs.statSync(path);
+  } catch (error) {
+    return res.status(500).send(`Cannot accsess file under ${path}`);
+  }
   const fileSize = stat.size;
   const range = req.headers.range;
 
@@ -142,7 +147,7 @@ app.get('/stream', async (req, res) => {
       'Content-Range': `bytes ${start}-${end}/${fileSize}`,
       'Accept-Ranges': 'bytes',
       'Content-Length': chunksize,
-      'Content-Type': 'video/mp4'
+      'Content-Type': 'video/mp4',
     };
 
     res.writeHead(206, head);
@@ -150,7 +155,7 @@ app.get('/stream', async (req, res) => {
   } else {
     const head = {
       'Content-Length': fileSize,
-      'Content-Type': 'video/mp4'
+      'Content-Type': 'video/mp4',
     };
     res.writeHead(200, head);
     fs.createReadStream(path).pipe(res);

@@ -1,41 +1,29 @@
 const readdirp = require('readdirp');
 const fs = require('fs');
 const path = require('path');
+const winston = require('winston');
 const { getVideoDurationInSeconds } = require('get-video-duration');
-const db = require('../database');
 
-function generateMovieMetaData(basepath) {
+const curl = new (require('curl-request'))();
+
+function generateMovieMetaData(path, fileFilter) {
   return new Promise(async (resolve, reject) => {
-    try {
-      insertedCount = 0;
-      const settings = {
-        type: 'files',
-        fileFilter: ['*.mp4', '*.flv', '*.ogv', '*.webm', '*.mpg', '*.avi', '*.wmv', '*.mov', '*.mts', '*.mkv', '*.MOV']
-      };
+    const settings = {
+      type: 'files',
+      fileFilter: fileFilter,
+    };
 
-      const files = await readdirp.promise(basepath, settings);
+    const items = [];
 
-      for (const entry of files) {
-        const item = await createVideoItem(entry)
-          .then(item => {
-            db.insert(item)
-              .then(() => {
-                insertedCount++;
-                console.log(`Insert new Item: ${item.itemInfo.title}${item.extname}`);
-              })
-              .catch(err => {
-                console.log(`Failed to store item: ${item.itemInfo.title}.${item.extname}\nError: ${err} `);
-              });
-          })
-          .catch(err => {
-            console.log(`Failed to store item: ${item.itemInfo.title}.${item.extname}\nError: ${err} `);
-          });
-      }
-
-      resolve(insertedCount);
-    } catch (error) {
-      reject(error);
-    }
+    readdirp
+      .promise(path, settings)
+      .then(async (files) => {
+        for (const entry of files) {
+          await createVideoItem(entry).then((item) => items.push(item));
+        }
+      })
+      .then(() => resolve(items))
+      .catch((err) => reject(err));
   });
 }
 
@@ -48,26 +36,24 @@ async function createVideoItem(entry) {
       const item = {
         type: 'video',
         extname: path.extname(file),
-        parent: path
-          .dirname(entry.fullPath)
-          .split(path.sep)
-          .pop(),
+        parent: path.dirname(entry.fullPath).split(path.sep).pop(),
         path: entry.fullPath,
-        streamUrl: `http://localhost:5000/stream/`,
+        streamUrl: `http://localhost:5000/api/v1/video/stream`,
         publishedAt: stats.birthtime,
         duration: await getVideoDuration(entry.fullPath),
-        thumbnail: `http://localhost:5000/stream/`,
+        thumbnail: 'await getThumbnail(file)',
         itemInfo: {
           title: path.basename(entry.fullPath, path.extname(file)),
-          description: '...'
+          description: '...',
         },
         statistics: {
-          viewCount: 0
-        }
+          viewCount: 0,
+        },
       };
+
       resolve(item);
     } catch (error) {
-      console.log(`Could not read "${entry.fullPath}" \nError: ${error}`);
+      winston.error(`Could not read "${entry.fullPath}" \nError: ${error}`);
       reject(error);
     }
   });
@@ -77,8 +63,41 @@ async function getVideoDuration(path) {
   try {
     return await getVideoDurationInSeconds(path);
   } catch (error) {
-    return null;
+    return 0;
   }
+}
+
+async function getThumbnail(file) {
+  try {
+    const stream = fs.createReadStream(file);
+  } catch (error) {
+    console.log(error);
+  }
+  await curl
+    .setHeaders(['Content-Type: multipart/form-data'])
+    .setMultipartBody([
+      {
+        name: 'filename',
+        contents: 'yourimage.png',
+      },
+      {
+        name: 'file',
+        file: stream,
+      },
+    ])
+    .post('http://127.0.0.1:9025/screenshot')
+    .then(({ statusCode, body, headers }) => {
+      fs.writeFile('./image.png', body, function (err) {
+        if (err) throw err;
+      });
+      // console.log(statusCode, body, headers);
+      return '';
+    })
+
+    .catch((e) => {
+      console.log('error: ', e);
+      return '';
+    });
 }
 
 module.exports = { generateMovieMetaData };

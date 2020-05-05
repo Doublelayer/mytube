@@ -13,9 +13,9 @@ export function* watchVideoDetails() {
 }
 
 export function* fetchVideoDetails(videoId) {
-  yield fetchEntity(`${find}?$id=${videoId}`, videoActions.details);
+  yield fetchEntity(`${find}?id=${videoId}`, videoActions.details);
 }
 
 export function* updateViewCount(videoId) {
-  yield fetchEntity(`${viewCount}?$id=${videoId}`, videoActions.viewCount);
+  yield fetchEntity(`${viewCount}?id=${videoId}`, videoActions.viewCount);
 }

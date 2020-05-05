@@ -25,7 +25,7 @@ class VideoPreview extends Component {
       <Link to={{ pathname: this.props.pathname, search: `id=${this.props.search}` }}>
         <div className={['video-preview', horizontal, expanded].join(' ')}>
           <div className="image-container">
-            <Video url={`${streamUrl}?$id=${_id}`} controls={false} playing={false} />
+            <Video url={`${streamUrl}?id=${_id}/sfd`} controls={false} playing={false} />
             <div className="time-label">
               <span>{secondsToTime(video.duration)}</span>
             </div>

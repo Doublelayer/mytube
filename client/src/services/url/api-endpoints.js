@@ -1,3 +1,4 @@
-export const videos = 'http://localhost:5000/videos';
-export const find = 'http://localhost:5000/find';
-export const viewCount = 'http://localhost:5000/update-view-count';
+const API_URL = 'http://localhost:5000/api/v1';
+export const videos = `${API_URL}/video/list`;
+export const find = '${API_URL}';
+export const viewCount = '${API_URL}/update-view-count';

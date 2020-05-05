@@ -16,7 +16,7 @@ class Watch extends React.Component {
 
     return (
       <div className="watch-grid">
-        <Video class="video" url={`${streamUrl}?$id=${_id}`} controls={true} playing={true} light={false} />
+        <Video class="video" url={`${streamUrl}?id=${_id}`} controls={true} playing={true} light={false} />
         <VideoMetadata viewCount={statistics.viewCount} title={itemInfo.title} />
         <VideoInfoBox parent={parent} publishedAt={publishedAt} description={itemInfo.description} />
         <Comments />
@@ -44,14 +44,14 @@ class Watch extends React.Component {
 
 function mapStateToProps(state, props) {
   return {
-    video: getVideoById(state, getSearchParam(props.location, 'id'))
+    video: getVideoById(state, getSearchParam(props.location, 'id')),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   const fetchWatchDetails = watchActions.details.request;
   return {
-    watch: bindActionCreators({ fetchWatchDetails }, dispatch)
+    watch: bindActionCreators({ fetchWatchDetails }, dispatch),
   };
 }
 
