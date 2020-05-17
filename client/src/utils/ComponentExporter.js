@@ -4,7 +4,7 @@ export { default as SideBar } from '../containers/SideBar/SideBar';
 export { default as SideBarItem } from '../containers/SideBar/SideBarItem/SideBarItem';
 export { default as Favorites } from '../containers/SideBar/Favorites/Favorites';
 export { default as VideoPreview } from '../components/VideoPreview/VideoPreview';
-export { default as Video } from '../components/Video/Video';
+export { default as VideoPlayer } from '../components/VideoPlayer/VideoPlayer';
 export { default as Home } from '../containers/Home/Home';
 export { default as HomeContent } from '../containers/Home/HomeContent/HomeContent';
 export { default as Watch } from '../containers/Watch/Watch';

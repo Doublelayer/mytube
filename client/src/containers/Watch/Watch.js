@@ -1,40 +1,64 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import * as watchActions from '../../store/actions/watch';
-import { getVideoById } from '../../store/reducers/video';
+import * as videoActions from '../../store/actions/video';
+import { getVideoById, getRelatedVideos } from '../../store/reducers/video';
 import { getSearchParam } from '../../services/url/index';
+import { STREAM_VIDEO } from '../../services/url/api-endpoints';
+
 import { connect } from 'react-redux';
-import { Video, RelatedVideos, VideoMetadata, VideoInfoBox, Comments } from '../../utils/ComponentExporter';
+import { VideoPlayer, RelatedVideos, VideoMetadata, VideoInfoBox, Comments } from '../../utils/ComponentExporter';
 import './Watch.scss';
 
 class Watch extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { sameFolderFetched: false };
+  }
+
   render() {
-    if (!this.props.video) {
+    console.log(this.props.now);
+    if (!this.props.now) {
       return <div />;
     }
-    const { streamUrl, _id, statistics, itemInfo, parent, publishedAt } = this.props.video;
+
+    const { _id, statistics, itemInfo, parent, publishedAt } = this.props.now;
+    const { relatedVideos } = this.props;
+    console.log(relatedVideos);
 
     return (
       <div className="watch-grid">
-        <Video class="video" url={`${streamUrl}?id=${_id}`} controls={true} playing={true} light={false} />
+        <VideoPlayer class="video" url={`${STREAM_VIDEO}/${_id}`} controls={true} playing={false} light={false} />
         <VideoMetadata viewCount={statistics.viewCount} title={itemInfo.title} />
         <VideoInfoBox parent={parent} publishedAt={publishedAt} description={itemInfo.description} />
         <Comments />
-        <RelatedVideos className="relatedVideos" />
+        <RelatedVideos relatedVideos={relatedVideos} />
       </div>
     );
   }
 
-  componentDidMount() {
-    this.fetchWatchContent();
+  componentDidUpdate() {
+    const video = this.props.now;
+
+    if (video && !this.state.sameFolderFetched) {
+      this.props.watch.fetchSameFolder({ parent: video.parent });
+      this.setState({ sameFolderFetched: true });
+    }
   }
 
-  fetchWatchContent() {
+  componentDidMount() {
     const videoId = this.getVideoId();
     if (!videoId) {
       this.props.history.push('/');
     }
-    this.props.watch.fetchWatchDetails(videoId);
+
+    const video = this.props.now;
+    if (video) {
+      this.props.watch.now(video._id);
+      this.props.watch.fetchSameFolder({ parent: video.parent });
+    } else {
+      this.props.watch.fetchWatchDetails(videoId);
+    }
   }
 
   getVideoId() {
@@ -44,14 +68,18 @@ class Watch extends React.Component {
 
 function mapStateToProps(state, props) {
   return {
-    video: getVideoById(state, getSearchParam(props.location, 'id')),
+    now: getVideoById(state, getSearchParam(props.location, 'id')),
+    relatedVideos: getRelatedVideos(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   const fetchWatchDetails = watchActions.details.request;
+  const fetchMostPopular = videoActions.mostPopular.request;
+  const fetchSameFolder = watchActions.sameFolder.request;
+  const now = watchActions.watch.now;
   return {
-    watch: bindActionCreators({ fetchWatchDetails }, dispatch),
+    watch: bindActionCreators({ fetchWatchDetails, fetchMostPopular, now, fetchSameFolder }, dispatch),
   };
 }
 

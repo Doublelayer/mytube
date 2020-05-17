@@ -1,25 +1,35 @@
 const Video = require('../model/video.model');
 const Config = require('../model/config.model');
 const winston = require('winston');
+const { logger } = require('../utils/logger');
 const fs = require('fs');
-const scanner = require('../utils/dirScanner');
+const scanner = require('../utils/video.scanner');
 
 module.exports.listVideos = async (req, res) => {
-  const params = {
-    ignore: 'IGNORE',
-    sortBy: req.query.$sort,
-    limit: req.query.$limit,
-    skip: req.query.$skip,
-    type: req.query.$type,
-    category: req.query.$type,
+  const options = {
+    page: req.body.nextPage,
+    limit: req.body.limit,
+    projection: req.body.projection,
   };
 
-  await Video.find((err, docs) => {
+  await Video.paginate({}, options, (err, docs) => {
     if (err) {
       winston.error(err);
       res.status(400).send({ ERROR: `There was an Error while generating documents`, IFNO: err });
     } else {
-      res.status(200).json({ info: { totalResults: docs.length }, docs });
+      res.status(200).json(docs);
+    }
+  });
+};
+
+module.exports.findBy = async (req, res) => {
+  logger.debug(JSON.stringify(req.body));
+  await Video.find(req.body, (err, docs) => {
+    if (err) {
+      winston.error(err);
+      res.status(400).send({ ERROR: `There was an Error while generating documents`, IFNO: err });
+    } else {
+      res.status(200).json(docs);
     }
   });
 };
@@ -47,7 +57,7 @@ module.exports.updateViewCount = async (req, res) => {
 };
 
 module.exports.find = async (req, res) => {
-  const id = req.query.id;
+  const id = req.params.id;
   if (!id) return res.status(400).send('ID required!');
 
   await Video.findById(id, (err, doc) => {
@@ -60,47 +70,103 @@ module.exports.find = async (req, res) => {
   });
 };
 
-/*
-   This Endpoint will generate video items and store it in the databse
-   1. It removes all documents from the database
-   2. It generate the metadata of all found videos
-   3. It will try to stored it in the database
+module.exports.thumbnail = async (req, res) => {
+  const id = req.params.id;
+  winston.info(id);
+  if (!id) return res.status(400).send('ID required!');
 
-   On Succsess : Status 200, Message with inserted docs count
-   On Failure  : Status 400, Message with error info
-*/
-module.exports.rebuildDatabase = async (req, res) => {
-  await Video.deleteMany({}, async (err, result) => {
+  await Video.findOne({ _id: id }, (err, doc) => {
     if (err) {
       winston.error(err);
-      res.status(400).send({ ERROR: `There was an Error while generating documents`, IFNO: err });
+      res.status(400).send({ ERROR: `Item with '${id}' not found!`, IFNO: err });
     } else {
-      winston.info(`${result.deletedCount} documents from video collection removed`);
-      const doc = await Config.findOne({});
-
-      await scanner.generateMovieMetaData(doc.root, doc.videos.filter).then((items) => {
-        Video.insertMany(items, (err, docs) => {
-          if (err) {
-            winston.error(err);
-            res.status(400).send({ ERROR: `There was an Error while generating documents`, IFNO: err });
-          } else {
-            winston.info(`${docs.length} documents to video collection inserted`);
-            res.status(200).json({
-              success: true,
-              message: `found and stored ${docs.length} videos`,
-              filter_used: doc.videos.filter,
-            });
-          }
-        });
+      const img = Buffer.from(doc.thumbnail, 'base64');
+      res.writeHead(200, {
+        'Content-Type': 'image/png',
+        'Content-Length': img.length,
       });
+      res.end(img);
     }
   });
 };
 
-module.exports.stream = async (req, res) => {
-  const movie = await Video.findById(req.query.id);
+/*
+   This Endpoint will generate video items and store it in the database
+   1. It removes all documents from the database
+   2. It generate the metadata of all found videos
+   3. It will try to stored it in the database
+ 
+   On Succsess : Status 200, Message with inserted docs count
+   On Failure  : Status 400, Message with error info
+*/
+module.exports.rebuildDatabase = async (req, res) => {
+  logger.info('start to rebuild database');
 
-  if (!movie) return res.status(404).send(`Video with '${req.query.id}' not found`);
+  const result = await Video.deleteMany({}).catch((error) => {
+    logger.error(error);
+    res.status(500).send({ ERROR: `an unexpected error occurs while deleting from database`, IFNO: error });
+  });
+
+  logger.info(`${result.deletedCount} documents from video collection removed`);
+
+  const config = await Config.findOne({}).catch((err) => {
+    logger.error(err);
+    res.status(500).send({ ERROR: `can't find config file`, IFNO: error });
+  });
+
+  logger.debug(`Config: ${config}`);
+  const filter = {
+    type: config.videos.fileType,
+    fileFilter: config.videos.extName,
+  };
+
+  const files = await scanner.getFilesFromDirectory(config.root, filter);
+
+  logger.info(`${files.length} files found in '${config.root}'`);
+
+  var insertCount = 0;
+  const failedFiles = [];
+  const successFiles = [];
+
+  for (const file of files) {
+    const metaData = await scanner.generateMovieMetaData(file);
+
+    await createVideoEntry(metaData)
+      .then((doc) => {
+        logger.info(`new file from ${doc.path} inserted`);
+        successFiles.push(doc.path);
+        insertCount++;
+      })
+      .catch((err) => {
+        logger.error(err);
+        failedFiles.push({ ERROR: err.errors, FILE: file.path });
+      });
+  }
+
+  const success = files.length === insertCount;
+  logger.debug(`${insertCount} documents to video collection inserted`);
+  logger.debug(`all successfull : ${success}`);
+  res.status(200).json({
+    success: success,
+    message: `found ${files.length} files and stored ${insertCount}`,
+    filter_used: config.videos.filter,
+    failedFiles: failedFiles,
+    successFiles: successFiles,
+  });
+};
+
+async function createVideoEntry(metaData) {
+  return new Promise((resolve, reject) => {
+    Video.create(metaData)
+      .then((doc) => resolve(doc))
+      .catch((err) => reject(err));
+  });
+}
+
+module.exports.stream = async (req, res) => {
+  const movie = await Video.findById(req.params.id);
+
+  if (!movie) return res.status(404).send(`Video by ID: '${req.query.id}' not found`);
 
   const path = movie.path;
   var stat;

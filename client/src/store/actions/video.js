@@ -3,7 +3,7 @@ import { createAction, createRequestTypes, REQUEST, SUCCESS, FAILURE } from './i
 export const MOST_POPULAR = createRequestTypes('MOST_POPULAR');
 
 export const mostPopular = {
-  request: (skip, limit) => createAction(MOST_POPULAR[REQUEST], { skip, limit }),
-  success: response => createAction(MOST_POPULAR[SUCCESS], { response }),
-  failure: response => createAction(MOST_POPULAR[FAILURE], { response })
+  request: (nextPage, limit, projection) => createAction(MOST_POPULAR[REQUEST], { nextPage, limit, projection }),
+  success: (response) => createAction(MOST_POPULAR[SUCCESS], { response }),
+  failure: (response) => createAction(MOST_POPULAR[FAILURE], { response }),
 };

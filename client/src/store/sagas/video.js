@@ -1,16 +1,21 @@
 import { fork, take } from 'redux-saga/effects';
 import * as videoActions from '../actions/video';
-import { videos } from '../../services/url/api-endpoints';
+import { LIST_VIDEO } from '../../services/url/api-endpoints';
 import { REQUEST } from '../actions';
-import { fetchEntity } from './index';
+import { post } from './index';
 
 export function* watchMostPopularVideos() {
   while (true) {
-    const { skip, limit } = yield take(videoActions.MOST_POPULAR[REQUEST]);
-    yield fork(fetchMostPopular, skip, limit);
+    const { nextPage, limit, projection } = yield take(videoActions.MOST_POPULAR[REQUEST]);
+    const params = {
+      nextPage: nextPage,
+      limit: limit,
+      projection: projection
+    }
+    yield fork(fetchMostPopular, params, projection);
   }
 }
 
-export function* fetchMostPopular(skip, limit) {
-  yield fetchEntity(`${videos}?$sort={"statistics.viewCount": -1 }&$type=video&$limit=${limit}&$skip=${skip}`, videoActions.mostPopular);
+export function* fetchMostPopular(params) {
+  yield post(`${LIST_VIDEO}`, "POST", params, videoActions.mostPopular);
 }

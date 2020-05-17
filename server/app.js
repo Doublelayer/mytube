@@ -23,7 +23,6 @@ if (!IS_PRODUCTION) {
 }
 
 app.get('/', (req, res) => {
-  console.log('sdfas');
   res.json({
     message: '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
   });

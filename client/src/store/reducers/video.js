@@ -1,6 +1,6 @@
 import { MOST_POPULAR } from '../actions/video';
 import { SUCCESS, REQUEST } from '../actions';
-import { WATCH_DETAILS } from '../actions/watch';
+import { WATCH_DETAILS, SAME_FOLDER } from '../actions/watch';
 
 import { createSelector } from 'reselect';
 
@@ -8,10 +8,14 @@ const initialState = {
   byId: {},
   byCategory: {
     mostPopular: {
-      items: []
-    }
+      items: [],
+    },
   },
-  isFetching: false
+  isFetching: false,
+  watch: {
+    now: [],
+    related: [],
+  },
 };
 
 export default function videos(state = initialState, action) {
@@ -19,26 +23,42 @@ export default function videos(state = initialState, action) {
     case MOST_POPULAR[REQUEST]:
       return { ...state, isFetching: true };
     case MOST_POPULAR[SUCCESS]:
-      return reduceFetchMostPopular(action.response, state);
+      return reduceVideoList(action.response, state);
     case WATCH_DETAILS[SUCCESS]:
       return reduceWatchDetails(action.response, state);
+    case SAME_FOLDER[SUCCESS]:
+      return reduceSameFolder(action.response, state);
+    case 'NOW':
+      return reduceWatchNow(action, state);
     default:
       return state;
   }
 }
 
-function reduceFetchMostPopular(response, prevState) {
-  const videoMap = response.docs.reduce((accumulator, video) => {
-    accumulator[video._id] = video;
-    return accumulator;
-  }, {});
+function reduceWatchNow(action, prevState) {
+  return { ...prevState, watch: { related: [], now: action.videoId } };
+}
 
+function reduceSameFolder(response, prevState) {
+  const videoMap = getVideoMap(response);
+  delete videoMap[prevState.watch.now];
+  return {
+    ...prevState,
+    byId: { ...prevState.byId, ...videoMap },
+    watch: { now: prevState.watch.now, related: Object.keys(videoMap) },
+  };
+}
+
+function reduceVideoList(response, prevState) {
+  const videoMap = getVideoMap(response.docs);
+
+  delete response['docs'];
   let items = Object.keys(videoMap);
 
   items = [...prevState.byCategory.mostPopular.items, ...items];
 
   const mostPopular = {
-    items
+    items,
   };
 
   return {
@@ -46,37 +66,52 @@ function reduceFetchMostPopular(response, prevState) {
     byCategory: { mostPopular },
     byId: { ...prevState.byId, ...videoMap },
     isFetching: false,
-    nextSkip: prevState.byCategory.mostPopular.items.length + response.info.totalResults
+    ...response,
   };
 }
 
 function reduceWatchDetails(response, prevState) {
-  let byIdEntry = {};
-  if (response) {
-    byIdEntry = { [response._id]: response };
-  }
-
   return {
     ...prevState,
-    byId: {
-      ...prevState.byId,
-      ...byIdEntry
-    }
+    byId: { [response._id]: response },
+    watch: { now: response._id, related: [] },
   };
+}
+
+function getVideoMap(response) {
+  return response.reduce((accumulator, video) => {
+    accumulator[video._id] = video;
+    return accumulator;
+  }, {});
 }
 
 /*
  *   Selectors
  * */
-export const getMostPopularVideos = createSelector(
-  state => state.videos.byId,
-  state => state.videos.byCategory.mostPopular,
+export const getRelatedVideos = createSelector(
+  (state) => state.videos.byId,
+  (state) => state.videos.watch.related,
+  (byIds, related) => {
+    if (!byIds) {
+      return [];
+    }
+    return related.map((id) => byIds[id]);
+  }
+);
+
+// (state) => {
+//   return state.videos.byId[state.videos.watch.related];
+// };
+
+export const getNextVideosFromStore = createSelector(
+  (state) => state.videos.byId,
+  (state) => state.videos.byCategory.mostPopular,
   (videosById, mostPopular) => {
     if (!mostPopular || !mostPopular.items) {
       return [];
     }
 
-    return mostPopular.items.map(videoId => videosById[videoId]);
+    return mostPopular.items.map((videoId) => videosById[videoId]);
   }
 );
 
@@ -88,16 +123,22 @@ export const getVideoById = (state, videoId) => {
   return state.videos.byId[videoId];
 };
 
-export const videosByCategoryLoaded = createSelector(
-  state => state.videos.byCategory,
-  categories => {
-    return Object.keys(categories || {}).length !== 0;
-  }
-);
+export const getNextPage = (state) => {
+  return state.videos.nextPage || 1;
+};
 
-export const mostPopularVideosLoaded = createSelector(
-  state => state.videos.byCategory.mostPopular.items,
-  mostPopular => {
-    return Object.keys(mostPopular || {}).length;
-  }
-);
+export const getActualPage = (state) => {
+  return state.videos.page || 1;
+};
+
+export const getLimit = () => {
+  return 40;
+};
+
+export const getIsVideoFetching = (state) => {
+  return state.videos.isFetching;
+};
+
+export const getTotalPages = (state) => {
+  return state.videos.totalPages;
+};
