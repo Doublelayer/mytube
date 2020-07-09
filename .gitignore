@@ -5,7 +5,7 @@
 /server/logs
 
 # local test data
-__test_data/
+# __test_data/
 
 # dependencies
 node_modules/
