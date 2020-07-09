@@ -4,7 +4,7 @@
   "author": "doublelayer",
   "license": "MIT",
   "scripts": {
-    "start-dev": "concurrently --kill-others \"npm run client-dev\" \"npm run server-dev\"",
+    "start-dev": "concurrently --kill-others \"npm run client-dev\" \"npm run server-dev\" \"npm run mongoDb:start\" ",
     "ffmpeg-docker-dev": "cd docker-ffmpeg-service && docker-compose up -d --build",
     "mongoDb:start": "docker start --interactive realworld-mongo",
     "client-dev": "cd client && npm run dev",

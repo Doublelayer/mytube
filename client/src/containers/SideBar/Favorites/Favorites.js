@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Divider } from 'semantic-ui-react';
-import { SideBarHeader, Favorite } from '../../../utils/ComponentExporter';
+import { SideBarHeader, Favorite } from '../../../utils/Exporter';
 
 class Favorites extends Component {
   render() {

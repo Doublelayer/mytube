@@ -1,4 +1,14 @@
-const API_URL = 'http://localhost:5000/api/v1';
+export const API_ROOT = 'http://localhost:5005';
+
+const API_VERSION = 'api/v1';
+const API_URL = `${API_ROOT}/${API_VERSION}`;
+
+const VIDEO_SETTINGS = `${API_URL}/settings/video`;
+
+export const STORED_DIRECTORIES = `${VIDEO_SETTINGS}/list-directories`;
+export const DIRECTORY_TREE = `${VIDEO_SETTINGS}/create-tree-or-update`;
+export const REFRESH_TREE = `${VIDEO_SETTINGS}/refresh-tree`;
+export const UPDATE_DATABASE = `${VIDEO_SETTINGS}/build`;
 
 export const LIST_VIDEO = `${API_URL}/video/list`;
 export const FIND_VIDEO = `${API_URL}/video/find`;

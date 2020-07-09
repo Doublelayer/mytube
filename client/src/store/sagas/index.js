@@ -1,13 +1,22 @@
 import { all, put, fork } from 'redux-saga/effects';
 import { watchMostPopularVideos } from './video';
-import { watchVideoDetails, fetchSameFolder, sameFolder } from './watch';
+import { watchVideoDetails, sameFolder } from './watch';
+
+import { getDirectoryTree, getStoredDirectories, findTree, updateDatabase } from './admin';
 
 export default function* () {
-  yield all([fork(watchMostPopularVideos), fork(watchVideoDetails), fork(sameFolder)]);
+  yield all([
+    fork(watchMostPopularVideos),
+    fork(watchVideoDetails),
+    fork(sameFolder),
+    fork(getDirectoryTree),
+    fork(getStoredDirectories),
+    fork(findTree),
+    fork(updateDatabase),
+  ]);
 }
 
 export function* post(endpoint, method, params, action, ...args) {
-  console.log('sadflkjjaslk');
   try {
     const json = yield fetch(endpoint, {
       headers: {
@@ -26,6 +35,7 @@ export function* post(endpoint, method, params, action, ...args) {
 }
 
 export function* get(endpoint, method, action, ...args) {
+  console.log(endpoint, method, action);
   try {
     const json = yield fetch(endpoint, {
       headers: {

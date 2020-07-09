@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
 const VideoSchema = new mongoose.Schema({
+  treeId: { type: String, required: true },
   type: { type: String, default: 'video' },
   extname: { type: String },
   parent: { type: String, required: true },

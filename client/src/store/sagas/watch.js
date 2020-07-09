@@ -28,6 +28,5 @@ export function* sameFolder() {
 }
 
 export function* fetchSameFolder(projection) {
-  console.log('same folder');
   yield post(`${FIND_BY}`, 'POST', projection, videoActions.sameFolder);
 }

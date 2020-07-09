@@ -1,31 +1,59 @@
-const readdirp = require('readdirp');
 const fs = require('fs');
 const Path = require('path');
-const { logger } = require('./logger');
+const logger = require('./logger');
 const { getVideoDurationInSeconds } = require('get-video-duration');
-
 const FormData = require('form-data');
 const fetch = require('node-fetch');
+const dree = require('dree');
 
-module.exports.getFilesFromDirectory = async (rootPath, filter) => {
-  return await readdirp.promise(rootPath, filter);
+const toUpper = function (x) {
+  return x.toUpperCase();
 };
 
-module.exports.generateMovieMetaData = (entry) => {
+const toLower = function (x) {
+  return x.toLowerCase();
+};
+
+module.exports.getFilesFromDirectory = async (rootPath, filter) => {
+  return new Promise(async (resolve, reject) => {
+    logger.debug(`Root: ${rootPath} | Filter: ${filter}`);
+    const upperCase = filter.map(toUpper);
+    const lowerCase = filter.map(toLower);
+
+    const options = {
+      extensions: upperCase.concat(lowerCase),
+      excludeEmptyDirectories: true,
+      showHidden: true,
+      size: false,
+      hash: false,
+      sizeInBytes: false,
+    };
+
+    dree
+      .scanAsync(rootPath, options)
+      .then(function (tree) {
+        resolve(tree);
+      })
+      .catch((err) => reject(err));
+  });
+};
+
+module.exports.generateMovieMetaData = (entry, treeId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const file = Path.resolve(entry.fullPath);
+      const file = Path.resolve(entry);
       const stats = fs.statSync(file);
       const extName = Path.extname(file);
-      const fileName = Path.basename(entry.fullPath, extName);
+      const fileName = Path.basename(entry, extName);
 
       const item = {
+        treeId: treeId,
         type: 'video',
         extname: extName,
-        parent: Path.dirname(entry.fullPath).split(Path.sep).pop(),
-        path: entry.fullPath,
+        parent: Path.dirname(entry).split(Path.sep).pop(),
+        path: entry,
         publishedAt: stats.birthtime,
-        duration: await getVideoDuration(entry.fullPath),
+        duration: await getVideoDuration(entry),
         thumbnail: await getThumbnail(file, fileName),
         itemInfo: {
           title: fileName,

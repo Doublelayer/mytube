@@ -1,5 +1,5 @@
 import React from 'react';
-import { VideoPlayer } from '../../../utils/ComponentExporter';
+import { VideoPlayer } from '../../../utils/Exporter';
 import { shallow } from 'enzyme';
 
 test('renders video component correctly', () => {

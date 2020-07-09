@@ -1,30 +1,33 @@
 const express = require('express');
 const cors = require('cors');
 const errorhandler = require('errorhandler');
+const morgan = require('morgan')
 const bodyParser = require('body-parser');
 const path = require('path');
 
-const { IS_PRODUCTION } = require('./config');
+const { isProduction } = require('./config');
 
 const middlewares = require('./middlewares');
+
 const api = require('./api');
 
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(require('morgan')('dev'));
+app.use(morgan('dev'))
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-if (!IS_PRODUCTION) {
-  app.use(errorhandler());
+if (!isProduction) {
+  app.use(errorhandler({ dumpExceptions: true, showStack: true }));
 }
 
 app.get('/', (req, res) => {
   res.json({
-    message: '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
+    message: 'welcome to mylocaltube',
   });
 });
 

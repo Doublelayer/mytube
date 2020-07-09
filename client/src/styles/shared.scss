@@ -5,3 +5,23 @@ $sidebar-left-width: 17rem;
 $text-color-dark: #111111;
 $avatar-diameter: 48px;
 $avatar-margin: 10px;
+
+body, html {
+  height: 0  !important;
+}
+
+.app-layout {
+    & > *:not(:first-child) {
+      margin-top: $header-nav-height;
+    }
+  
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+  }
+
+
+  .content-panel{
+    margin-left: $sidebar-left-width;
+    padding: 50px;
+  }

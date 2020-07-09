@@ -1,6 +1,6 @@
 import React from 'react';
 import { Checkbox, Divider } from 'semantic-ui-react';
-import { VideoPreview } from '../../../utils/ComponentExporter';
+import { VideoPreview } from '../../../utils/Exporter';
 import './NextUpVideo.scss';
 
 export function NextUpVideo(props) {

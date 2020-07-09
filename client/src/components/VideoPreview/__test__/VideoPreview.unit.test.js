@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { VideoPreview } from '../../../utils/ComponentExporter';
+import { VideoPreview } from '../../../utils/Exporter';
 
 describe('VideoPreview', () => {
   test('renders vertically', () => {

@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
-import { secondsToTime } from '../../utils/time-formatter';
+import { secondsToTime } from '../../utils/TimeFormatter';
 import { STREAM_VIDEO, THUMB_VIDEO } from '../../services/url/api-endpoints';
 import 'moment/locale/de';
 
-import { VideoPlayer } from '../../utils/ComponentExporter';
+import { VideoPlayer } from '../../utils/Exporter';
 
 import './VideoPreview.scss';
 
