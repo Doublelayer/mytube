@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start-dev": "concurrently --kill-others \"npm run client-dev\" \"npm run server-dev\" \"npm run mongoDb:start\" ",
-    "ffmpeg-docker-dev": "cd docker-ffmpeg-service && docker-compose up -d --build",
-    "mongoDb:start": "docker start --interactive realworld-mongo",
+    "ffmpeg-docker-dev": "cd ffmpeg-service && docker-compose up -d --build",
+    "mongoDb:start": "cd mongo-db && docker-compose up -d",
     "client-dev": "cd client && npm run dev",
     "server-dev": "cd server && npm run dev",
     "install-all": "concurrently \"i-client\" \"i-server\"",

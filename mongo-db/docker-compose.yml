@@ -1,0 +1,7 @@
+version: '3'
+services:
+  app:
+    image: klamping/realworld-mongo
+    container_name: realworld-mongo
+    ports:
+      - '27017:27017'

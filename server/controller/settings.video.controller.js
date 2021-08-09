@@ -87,7 +87,7 @@ module.exports.rebuildDatabase = async (req, res) => {
     socket.emit(id, `${getDateTime()} | ${toHold.length} videos already present`);
     logger.debug(`${toHold.length} videos already present`);
 
-    DirectoryTree.updateOne({ _id: id }, { inserted: toHold }, (err, doc) => {
+    DirectoryTree.updateOne({ _id: id }, { inserted: toHold }, (err) => {
       if (err) {
         logger.error(err);
         socket.emit(`${id}-exception`, { err: err });
@@ -124,7 +124,6 @@ module.exports.rebuildDatabase = async (req, res) => {
 
       const metaData = await scanner
         .generateMovieMetaData(file, id)
-
         .catch((err) => {
           logger.error(err);
           socket.emit(`${id}-exception`, { err: err });
@@ -132,15 +131,17 @@ module.exports.rebuildDatabase = async (req, res) => {
 
       socket.emit(id, `${getDateTime()} | successfully generated meta data for '${file}'`);
 
-      const newEntry = await createVideoEntry(metaData).catch((err) => {
-        logger.error(err);
-        socket.emit(`${id}-exception`, { err: err });
-      });
+      const newEntry = await createVideoEntry(metaData)
+        .catch((err) => {
+          logger.error(err);
+          socket.emit(`${id}-exception`, { err: err });
+        });
 
-      await DirectoryTree.updateOne({ _id: id }, { $push: { inserted: newEntry.path } }).catch((err) => {
-        logger.error(err);
-        socket.emit(`${id}-exception`, { err: err });
-      });
+      await DirectoryTree.updateOne({ _id: id }, { $push: { inserted: newEntry.path } })
+        .catch((err) => {
+          logger.error(err);
+          socket.emit(`${id}-exception`, { err: err });
+        });
 
       socket.emit(id, `${getDateTime()} | '${file}' was stored`);
       socket.emit(`${id}-progress`, { total: toInserted.length, value: ++storedVideos });
